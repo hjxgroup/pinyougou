@@ -63,7 +63,8 @@ app.controller('goodsController' ,function($scope,$controller,itemCatService   ,
 				}						
 			}		
 		);				
-	}
+	};
+
 	
 	$scope.searchEntity={};//定义搜索对象 
 	

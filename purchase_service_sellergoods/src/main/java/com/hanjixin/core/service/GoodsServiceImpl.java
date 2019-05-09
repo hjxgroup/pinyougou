@@ -32,6 +32,7 @@ import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Session;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -261,6 +262,8 @@ public class GoodsServiceImpl implements GoodsService {
             });
         }
     }
+
+
 
     //给库存对象设置属性
     public void setAttribute(Item item, GoodsVo vo) {
