@@ -76,13 +76,29 @@ public class BrandServiceImpl implements BrandService {
         if(null!=strFirstChar&&!"".equals(strFirstChar.trim())){
             criteria.andFirstCharEqualTo(strFirstChar.trim());
         }
-        //查询所有
+        if (brand.getStatus()!=null && !brand.getStatus().trim().equals("")){
+            criteria.andStatusEqualTo(brand.getStatus().trim());
+        }
+
         Page<Brand> page = (Page<Brand>) brandDao.selectByExample(brandQuery);
         return new PageResult(page.getTotal(), page.getResult());
+
     }
 
+    //品牌审核
     @Override
+    public void updateBrandStatus(Long[] selectIds, String status) {
+        if (selectIds.length>0){
+            for (Long id : selectIds) {
+                Brand brand = brandDao.selectByPrimaryKey(id);
+                brand.setStatus(status);
+                brandDao.updateByPrimaryKeySelective(brand);
+            }
+        }
+    }
+
+   /* @Override
     public List<Map> selectOptionList() {
         return brandDao.selectOptionList();
-    }
+    }*/
 }

@@ -2,10 +2,9 @@ package com.hanjixin.core.dao.good;
 
 import com.hanjixin.core.pojo.good.Brand;
 import com.hanjixin.core.pojo.good.BrandQuery;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface BrandDao {
     int countByExample(BrandQuery example);
@@ -29,6 +28,4 @@ public interface BrandDao {
     int updateByPrimaryKeySelective(Brand record);
 
     int updateByPrimaryKey(Brand record);
-
-    List<Map> selectOptionList();
 }
