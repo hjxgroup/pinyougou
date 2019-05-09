@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.UUID;
 
 
 @RestController
@@ -34,7 +35,7 @@ public class SellerController {
 
         try {
             List<Seller> sellerList = sellerService.dataExport();
-            String fileName = "商家详细信息" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss") + ".xls";
+            String fileName = "商家详细信息" + UUID.randomUUID().toString().replaceAll("-","") + ".xls";
             String[] columnNames = {"用户ID", "公司名称", "店铺名称", "email", "公司手机", "公司电话", "状态", "详细地址", "联系人姓名"};
             String[] keys = {"sellerId","name","nickName","email","mobile","telephone","status","addressDetail","linkmanName"};
             ExportPOIUtils.start_download(response, fileName, sellerList, columnNames, keys);
