@@ -1,8 +1,12 @@
 package com.hanjixin.core.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.hanjixin.core.dao.user.UserDao;
 import com.hanjixin.core.pojo.user.User;
+import com.hanjixin.core.pojo.user.UserQuery;
+import entity.PageResult;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -13,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.jms.*;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -76,6 +81,40 @@ public class UserServiceImpl implements UserService {
         else{
             //失效了
             throw new RuntimeException("验证码过期");
+        }
+    }
+
+    @Override
+    public PageResult search(Integer page, Integer rows, User user) {
+
+//      分页助手
+        PageHelper.startPage(page,rows);
+//      条件查询
+        UserQuery userQuery = new UserQuery();
+        UserQuery.Criteria criteria = userQuery.createCriteria();
+
+        String status = user.getStatus();
+        String name = user.getName();
+//       状态  用户名查询
+        if (null != status && !"".equals(status.trim())){
+            criteria.andStatusEqualTo(status);
+        }
+        if (null !=name && !"".equals(name.trim())){
+            criteria.andNameLike("%"+name.trim()+"%");
+        }
+//        查询
+        Page<User> users = (Page<User>) userDao.selectByExample(userQuery);
+        return new PageResult(users.getTotal(),users.getResult());
+    }
+
+    @Override
+    public void updateStatus(Long[] ids, Integer status) {
+        User user = new User();
+
+        for (Long id : ids) {
+            user.setId(id);
+            user.setStatus(""+status);
+            userDao.updateByPrimaryKeySelective(user);
         }
     }
 }

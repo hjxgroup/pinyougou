@@ -10,6 +10,7 @@ import entity.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -97,8 +98,15 @@ public class BrandServiceImpl implements BrandService {
         }
     }
 
-   /* @Override
-    public List<Map> selectOptionList() {
-        return brandDao.selectOptionList();
-    }*/
+    //保存品牌表
+    @Override
+    public void saveBeans(ArrayList<Brand> brands) {
+        if (brands!=null && brands.size()>0){
+            for (Brand brand : brands) {
+                brandDao.insertSelective(brand);
+            }
+        }
+    }
+
+
 }

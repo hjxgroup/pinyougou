@@ -33,4 +33,9 @@ app.service('sellerService',function($http){
 	this.updateStatus = function(sellerId,status){
 		return $http.get('../seller/updateStatus.do?sellerId='+sellerId+"&status="+status);
 	}
+	//批量导出
+    this.dataExport=function () {
+
+        return $http.get("../seller/dataExport.do")
+    }
 });

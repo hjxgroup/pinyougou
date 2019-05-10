@@ -27,7 +27,6 @@ app.service('orderService',function($http){
 	}
 	//搜索
 	this.search=function(page,rows,searchEntity){
-		console.log("12312")
 		return $http.post('../order/search.do?page='+page+"&rows="+rows, searchEntity);
 	}    	
 });
