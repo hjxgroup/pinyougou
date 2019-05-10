@@ -2,8 +2,10 @@ package com.hanjixin.core.dao.order;
 
 import com.hanjixin.core.pojo.order.Order;
 import com.hanjixin.core.pojo.order.OrderQuery;
-import java.util.List;
+import entity.MorrisData;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface OrderDao {
     int countByExample(OrderQuery example);
@@ -27,4 +29,6 @@ public interface OrderDao {
     int updateByPrimaryKeySelective(Order record);
 
     int updateByPrimaryKey(Order record);
+
+    List<MorrisData> selectByMonth(String start, String end);
 }

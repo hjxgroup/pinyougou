@@ -530,4 +530,10 @@
       seller_id = #{sellerId,jdbcType=VARCHAR}
     where order_id = #{orderId,jdbcType=BIGINT}
   </update>
+  <select id="selectByMonth" resultType="entity.MorrisData" >
+    SELECT sum(t.payment) as licensed,DATE_FORMAT(t.payment_time,'%Y-%m') as period
+    from tb_order t
+    WHERE t.payment_time BETWEEN #{0} and #{1}
+    GROUP BY MONTH(t.payment_time)
+  </select>
 </mapper>
