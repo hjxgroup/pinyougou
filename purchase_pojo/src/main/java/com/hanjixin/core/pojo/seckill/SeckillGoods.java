@@ -1,5 +1,8 @@
 package com.hanjixin.core.pojo.seckill;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -45,6 +48,7 @@ public class SeckillGoods implements Serializable {
     /**
      * 添加日期
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date createTime;
 
     /**
@@ -60,11 +64,14 @@ public class SeckillGoods implements Serializable {
     /**
      * 开始时间
      */
+
+    @JSONField(format="yyyy-MM-dd HH:mm")
     private Date startTime;
 
     /**
      * 结束时间
      */
+    @JSONField(format="yyyy-MM-dd HH:mm")
     private Date endTime;
 
     /**

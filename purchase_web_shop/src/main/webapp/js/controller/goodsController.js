@@ -1,5 +1,5 @@
  //控制层 
-app.controller('goodsController' ,function($scope,$controller,$location,typeTemplateService ,itemCatService,uploadService ,goodsService){	
+app.controller('goodsController' ,function($scope,$controller,$location,typeTemplateService ,itemCatService,uploadService ,goodsService,itemService){
 	
 	$controller('baseController',{$scope:$scope});//继承
 	
@@ -255,4 +255,24 @@ app.controller('goodsController' ,function($scope,$controller,$location,typeTemp
 			}
 		});
 	}
-});	
+    //根据商品id查询库存
+    $scope.findItemByGoodsId=function (id) {
+        itemService.findItemByGoodsId(id).success(
+            function (response) {
+                $scope.itemList=response;
+            }
+        )
+    }
+    $scope.addSecKill=function () {
+		itemService.addSecKill($scope.sectIds,$scope.seckillGoods).success(
+            function(response){
+                if(response.flag){
+                    $scope.sectIds = [];
+                    alert("新增成功！")
+                }
+            }
+        )
+
+    }
+
+});

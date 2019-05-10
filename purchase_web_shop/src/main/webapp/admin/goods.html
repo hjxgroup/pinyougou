@@ -9,6 +9,7 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
     <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
     <link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
     <link rel="stylesheet" href="../css/style.css">
@@ -27,8 +28,64 @@
     <script type="text/javascript" src="../js/service/goodsService.js"></script>
     <script type="text/javascript" src="../js/service/itemCatService.js"></script>
     <script type="text/javascript" src="../js/service/uploadService.js"></script>  
-    <script type="text/javascript" src="../js/service/typeTemplateService.js"></script>  
- 
+    <script type="text/javascript" src="../js/service/typeTemplateService.js"></script>
+
+    <script src="../js/service/itemService.js"></script>
+
+    <!--时间配置-->
+    <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css">
+
+    <!--<script type="text/javascript" src="../plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>-->
+    <script src="../plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.js"></script>
+    <script type="text/javascript" src="../plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="../plugins/bootstrap-datetimepicker/moment-with-locales.js"></script>
+
+
+    <script type="text/javascript">
+
+        $(function () {
+            $("#datetimepicker2").datetimepicker({
+                language: 'zh-CN',
+                minuteStep:1,
+                format: 'yyyy-mm-dd hh:ii',
+                locale: moment.locale('zh-cn'),
+                initialDate: new Date(),
+                autoclose: true,//选中自动关闭
+                todayBtn: true,//显示今日按钮*/
+                pickerPosition:'center-right'
+            });
+            $("#datetimepicker1").datetimepicker({
+                language: 'zh-CN',
+                minuteStep:1,
+                format: 'yyyy-mm-dd hh:ii',
+                locale: moment.locale('zh-cn'),
+                initialDate: new Date(),
+                autoclose: true,//选中自动关闭
+                todayBtn: true,//显示今日按钮*/
+                pickerPosition:'center-right'
+            });
+
+
+            //
+            // $('#editModal').on('shown.bs.modal', function () {
+            //     var $this = $(this);
+            //     var dialog = $this.find('.modal-dialog');
+            //
+            //     //此种方式，在使用动画第一次显示时有问题
+            //     //解决方案，去掉动画fade样式
+            //     var top = ($(window).height() - dialog.height()) / 2;
+            //     dialog.css({
+            //         marginTop:top
+            //     });
+            // });
+
+        });
+
+
+    </script>
+
+
+
 </head>
 
 <body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="goodsController" ng-init="findItemCatList()">
@@ -102,7 +159,8 @@
 		                                  	</span>
 		                                  </td>		                                  
 		                                  <td class="text-center">
-		                                  	  <a class="btn bg-olive btn-xs" href="goods_edit.html#?id={{entity.id}}">修改</a>                                
+		                                  	  <a class="btn bg-olive btn-xs" href="goods_edit.html#?id={{entity.id}}">修改</a>
+                                              <button type="button" class="btn bg-olive btn-xs" ng-click="findItemByGoodsId(entity.id)" title="秒杀" data-toggle="modal" data-target="#editModal" ><i class="fa fa-file-o"></i> 秒杀</button>
 		                                  </td>
 			                          </tr>
 			                      </tbody>
@@ -117,7 +175,91 @@
                         
                      </div>
                     <!-- /.box-body -->
-		
+
+  <!-- 添加秒杀窗口 -->
+  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+      <div class="modal-dialog" style="height: 500px;width: 900px"   >
+          <div class="modal-content"  style="height: 500px;width: 900px"  >
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                  <h3 id="myModalLabel">秒杀编辑</h3>
+              </div>
+              <div class="modal-body" style="overflow:scroll; height: 400px">
+
+
+                  <!-- 规格选项 -->
+                  <div class="btn-group">
+                      <!--<button type="button" class="btn btn-default" title="新建" ng-click="addTableRow()"><i class="fa fa-file-o"></i> 新增规格选项</button>-->
+                      <div>
+                          <div class="form-group" style="float: left;width: 800px" >
+
+                              <div class='input-group date datetimePicker' id='datetimepicker1' style="float: left;width: 270px;">
+                                  <span class="input-group-addon">开始时间</span>
+                                  <input name="startTimeStr" ng-model="seckillGoods.startTime" type='text' class="form-control" style="width: auto"/>
+                                  <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                              </div>
+
+                              <!--<%&#45;&#45;<label>选择日期+时间：</label>&#45;&#45;%>-->
+                              <!--指定 date标记-->
+                              <div class='input-group date datetimePicker' id='datetimepicker2' style="float: left;width: 270px">
+                                  <span class="input-group-addon">截止时间</span>
+                                  <input name="endTimeStr" ng-model="seckillGoods.endTime" type='text' class="form-control" style="width: auto"/>
+                                  <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                              </div>
+                          </div>
+                      </div>
+                      <div >
+                          <span><span style="float: left">秒杀数量： </span><input name="num" ng-model="seckillGoods.num" type='text' class="form-control" style="width: 200px"/></span>
+                          <span><span style="float: left">秒杀价格： </span><input name="costPrice" ng-model="seckillGoods.costPrice" type='text' class="form-control" style="width: 200px"/></span>
+                      </div>
+
+
+                  <table class="table table-bordered table-striped table-hover dataTable" >
+                      <thead>
+                      <tr>
+
+                          <th class="" style="padding-right:0px">
+                              <input id="selall1" type="checkbox" class="icheckbox_square-blue">
+                          </th>
+                          <th class="sorting">库存id</th>
+                          <th class="sorting">标题</th>
+                          <th class="sorting">库存数量</th>
+                          <th class="sorting">原价</th>
+                      </thead>
+                      <tbody>
+                      <tr ng-repeat="item in itemList">
+                          <td><input  type="checkbox" ng-click="updateSection($event,item.id)"></td>
+                          <td>
+                             {{item.id}}
+                          </td>
+                          <td>
+                              {{item.title}}
+                          </td>
+                          <td>
+                              {{item.num}}
+                          </td>
+                          <td>
+                              {{item.price}}
+                          </td>
+                      </tr>
+
+                      </tbody>
+                  </table>
+
+
+              </div>
+              <div class="modal-footer">
+                  <button class="btn btn-success" data-dismiss="modal" aria-hidden="true" ng-click="addSecKill()">新增</button>
+                  <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+              </div>
+          </div>
+      </div>
+  </div>
+
 </body>
 
 </html>

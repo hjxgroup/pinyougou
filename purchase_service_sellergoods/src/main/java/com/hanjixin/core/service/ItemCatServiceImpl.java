@@ -20,14 +20,20 @@ public class ItemCatServiceImpl implements ItemCatService{
     //根据父ID查询
     @Override
     public List<ItemCat> findByParentId(Long parentId) {
-        //查询所有商品分类 保存缓存中  商品分类管理页面上 添加新的按钮  导入Mysql商品分类数据到缓存中
-        List<ItemCat> itemCatList=findAll();
-        for (ItemCat itemCat : itemCatList) {
-            redisTemplate.boundHashOps("itemCat").put(itemCat.getName(),itemCat.getTypeId());
+        try {
+            //查询所有商品分类 保存缓存中  商品分类管理页面上 添加新的按钮  导入Mysql商品分类数据到缓存中
+            List<ItemCat> itemCatList=findAll();
+            for (ItemCat itemCat : itemCatList) {
+                redisTemplate.boundHashOps("itemCat").put(itemCat.getName(),itemCat.getTypeId());
+            }
+            ItemCatQuery itemCatQuery = new ItemCatQuery();
+            itemCatQuery.createCriteria().andParentIdEqualTo(parentId);
+            return itemCatDao.selectByExample(itemCatQuery);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            e.printStackTrace();
         }
-        ItemCatQuery itemCatQuery = new ItemCatQuery();
-        itemCatQuery.createCriteria().andParentIdEqualTo(parentId);
-        return itemCatDao.selectByExample(itemCatQuery);
+        return null;
     }
 
     //查询一个
