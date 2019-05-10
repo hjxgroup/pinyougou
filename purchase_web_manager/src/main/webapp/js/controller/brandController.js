@@ -1,8 +1,12 @@
 // 定义控制器:
-app.controller("brandController",function($scope,$controller,$http,brandService){
+app.controller("brandController",function($scope,$controller,$http,brandService,excelService){
 	// AngularJS中的继承:伪继承
 	$controller('baseController',{$scope:$scope});
-	
+
+	$scope.brandTemplateDownload = function () {
+        location.href = "/excel/brandTemplateDownload.do";
+    }
+
 	// 查询所有的品牌列表的方法:
 	$scope.findAll = function(){
 		// 向后台发送请求:
@@ -92,6 +96,26 @@ app.controller("brandController",function($scope,$controller,$http,brandService)
                 alert(response.message);
             }
         });
+    }
+
+
+    //品牌数据导入
+    $scope.importExcel=function () {
+        // 向后台传递数据:
+        var formData = new FormData();
+        // 向formData中添加数据:
+        formData.append("file",file.files[0]);
+    	excelService.importBrandExcel(formData).success(
+    		function (response) {
+				if (response.flag){
+					alert(response.message);
+					$scope.reloadList();
+				}else {
+                    alert(response.message);
+				}
+            }
+		)
+
     }
 	
 });

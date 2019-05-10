@@ -3,6 +3,7 @@ package com.hanjixin.core.service;
 import com.hanjixin.core.pojo.good.Brand;
 import entity.PageResult;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +24,8 @@ public interface BrandService {
     PageResult search(Integer pageNum, Integer pageSize, Brand brand);
 
     void updateBrandStatus(Long[] selectIds, String status);
+
+    void saveBeans(ArrayList<Brand> brands);
 
     /* List<Map> selectOptionList();*/
 }
