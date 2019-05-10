@@ -19,6 +19,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import vo.Cart;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -139,5 +140,28 @@ public class OrderServiceImpl implements OrderService {
         return new PageResult(orderList.getTotal(),orderList.getResult());
     }
 
+    @Override
+    public List<Order> findByYear(String year) {
+        try {
+            //根据年份查询全部数据
+            String dateStr = year + "-01-01 00:00";
+            Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(dateStr);
+
+            OrderQuery orderQuery = new OrderQuery();
+            orderQuery.createCriteria().andCreateTimeGreaterThan(date);
+            List<Order> orders = orderDao.selectByExample(orderQuery);
+            return orders;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public  double[] findNum(Integer year) {
+        //根据年份查询全部数据
+        String date = year + "-01-01 00:00";
+        return null;
+    }
 
 }
