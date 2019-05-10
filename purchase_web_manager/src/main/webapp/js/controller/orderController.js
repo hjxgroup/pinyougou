@@ -1,7 +1,7 @@
 app.controller('orderController' ,function($scope,$controller,$location,orderService){
     $controller('baseController',{$scope:$scope});//继承
 
-    //读取列表数据绑定到表单中
+    //读取列表数据绑定到表单中  测试
     $scope.findAll=function(){
         orderService.findAll().success(
             function(response){
