@@ -29,7 +29,7 @@ app.controller("baseController",function($scope){
 			$scope.selectIds.splice(idx,1);
 		}
 		
-	}
+	};
 	
 	// 定义方法：获取JSON字符串中的某个key对应值的集合
 	$scope.jsonToString = function(jsonStr,key){

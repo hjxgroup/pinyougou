@@ -11,8 +11,7 @@ public class Order implements Serializable {
     private Long orderId;
 
     /**
-     * 实付金额。精确到2位小数;单位:元。如:200.07，表示:200元7分
-     */
+u     */
     private BigDecimal payment;
 
     /**

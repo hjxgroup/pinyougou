@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import vo.GoodsVo;
 
+import java.io.OutputStream;
+
 /**
  * 商品管理
  *
@@ -85,4 +87,5 @@ public class GoodsController {
             return new Result(false,"失败");
         }
     }
+
 }

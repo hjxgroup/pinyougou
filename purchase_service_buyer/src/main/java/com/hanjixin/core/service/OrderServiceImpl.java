@@ -120,14 +120,23 @@ public class OrderServiceImpl implements OrderService {
         //删除购物车中已经购买的商品
     }
 
+
+
     @Override
     public PageResult search(Integer page, Integer rows, Order order) {
         PageHelper.startPage(page,rows);
         OrderQuery orderQuery = new OrderQuery();
-        if (order!=null&&order.getSellerId()!=null){
-            orderQuery.createCriteria().andSellerIdEqualTo(order.getSellerId());
+
+        OrderQuery.Criteria criteria =orderQuery.createCriteria();
+        //模糊查询
+        if (null !=order.getUserId() && !"".equals(order.getUserId().trim())){
+            criteria.andUserIdLike("%" +order.getUserId().trim()+"%");
         }
-        Page<Order>orderList= (Page<Order>) orderDao.selectByExample(orderQuery);
+
+//        if (order!=null&&order.getSellerId()!=null){
+//            orderQuery.createCriteria().andSellerIdEqualTo(order.getSellerId());
+//        }
+        Page<Order> orderList= (Page<Order>) orderDao.selectByExample(orderQuery);
         return new PageResult(orderList.getTotal(),orderList.getResult());
     }
 
@@ -154,5 +163,5 @@ public class OrderServiceImpl implements OrderService {
         String date = year + "-01-01 00:00";
         return null;
     }
-		
+
 }
