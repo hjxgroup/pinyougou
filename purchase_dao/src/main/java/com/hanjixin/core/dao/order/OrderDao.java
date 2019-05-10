@@ -1,6 +1,7 @@
 package com.hanjixin.core.dao.order;
 
 import com.hanjixin.core.pojo.order.Order;
+import com.hanjixin.core.pojo.order.OrderItem;
 import com.hanjixin.core.pojo.order.OrderQuery;
 import entity.MorrisData;
 import org.apache.ibatis.annotations.Param;
@@ -20,7 +21,7 @@ public interface OrderDao {
 
     List<Order> selectByExample(OrderQuery example);
 
-    Order selectByPrimaryKey(Long orderId);
+    OrderItem selectByPrimaryKey(Long orderId);
 
     int updateByExampleSelective(@Param("record") Order record, @Param("example") OrderQuery example);
 

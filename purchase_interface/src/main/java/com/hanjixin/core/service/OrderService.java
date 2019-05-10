@@ -1,7 +1,6 @@
 package com.hanjixin.core.service;
 
 import com.hanjixin.core.pojo.order.Order;
-import entity.PageResult;
 
 public interface OrderService {
     void add(Order order);

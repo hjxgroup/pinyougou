@@ -22,7 +22,6 @@
         <module>purchase_web_shop</module>
         <module>purchase_web_manager</module>
         <module>purchase_web_portal</module>
-        <module>../fastDFSDemo</module>
     </modules>
     <!-- 集中定义依赖版本号 -->
     <properties>

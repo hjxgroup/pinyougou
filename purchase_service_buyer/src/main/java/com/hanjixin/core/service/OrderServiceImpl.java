@@ -1,8 +1,6 @@
 package com.hanjixin.core.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import com.hanjixin.common.utils.IdWorker;
 import com.hanjixin.core.dao.item.ItemDao;
 import com.hanjixin.core.dao.log.PayLogDao;
@@ -12,8 +10,6 @@ import com.hanjixin.core.pojo.item.Item;
 import com.hanjixin.core.pojo.log.PayLog;
 import com.hanjixin.core.pojo.order.Order;
 import com.hanjixin.core.pojo.order.OrderItem;
-import com.hanjixin.core.pojo.order.OrderQuery;
-import entity.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import vo.Cart;
@@ -119,14 +115,25 @@ public class OrderServiceImpl implements OrderService {
         //删除购物车中已经购买的商品
     }
 
+
+
     @Override
     public PageResult search(Integer page, Integer rows, Order order) {
         PageHelper.startPage(page,rows);
         OrderQuery orderQuery = new OrderQuery();
-        if (order!=null&&order.getSellerId()!=null) {
-            orderQuery.createCriteria().andSellerIdEqualTo(order.getSellerId());
+
+        OrderQuery.Criteria criteria =orderQuery.createCriteria();
+        //模糊查询
+        if (null !=order.getUserId() && !"".equals(order.getUserId().trim())){
+            criteria.andUserIdLike("%" +order.getUserId().trim()+"%");
         }
-        Page<Order> orderList= (Page<Order>) orderDao.selectByExample(orderQuery);
+
+//        if (order!=null&&order.getSellerId()!=null){
+//            orderQuery.createCriteria().andSellerIdEqualTo(order.getSellerId());
+//        }
+        Page<Order>orderList= (Page<Order>) orderDao.selectByExample(orderQuery);
         return new PageResult(orderList.getTotal(),orderList.getResult());
     }
+
+
 }
