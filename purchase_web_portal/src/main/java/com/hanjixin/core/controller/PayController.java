@@ -35,12 +35,14 @@ public class PayController {
             while (true){
                 Map<String,String> map = payService.queryPayStatus(out_trade_no);
                 //未支付 再查
-                if("NOTPAY".equals(map.get(out_trade_no))){
+                if("NOTPAY".equals(map.get("trade_state"))){
                     //睡一会
                     Thread.sleep(3000);
                     x++;
-                    if(x>200){
+                    if(x>2){
+                    //if(x>200){
                         //再次调用 微信服务器Api  关闭订单(同学写了)
+                        payService.closeOrder(out_trade_no);
                         return new Result(false,"支付超时");
                     }
                 }

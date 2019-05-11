@@ -533,7 +533,16 @@
   <select id="selectByMonth" resultType="entity.MorrisData" >
     SELECT sum(t.payment) as licensed,DATE_FORMAT(t.payment_time,'%Y-%m') as period
     from tb_order t
+    WHERE t.payment_time BETWEEN #{start} and #{end}
+    <if test="username != null" >
+      and seller_id=#{username}
+    </if>
+    GROUP BY MONTH(t.payment_time) order by t.payment_time
+  </select>
+  <select id="selectGroupMonth" resultType="map" >
+    SELECT seller_id as name,sum(t.payment) as value
+    from tb_order t
     WHERE t.payment_time BETWEEN #{0} and #{1}
-    GROUP BY MONTH(t.payment_time)
+    GROUP BY t.seller_id
   </select>
 </mapper>

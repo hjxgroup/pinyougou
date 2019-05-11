@@ -7,6 +7,7 @@ import entity.MorrisData;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface OrderDao {
     int countByExample(OrderQuery example);
@@ -31,5 +32,7 @@ public interface OrderDao {
 
     int updateByPrimaryKey(Order record);
 
-    List<MorrisData> selectByMonth(String start, String end);
+    List<MorrisData> selectByMonth(@Param("start") String start, @Param("end")String end,@Param("username")String username);
+
+    List<Map<String,String>> selectGroupMonth(String start, String end);
 }

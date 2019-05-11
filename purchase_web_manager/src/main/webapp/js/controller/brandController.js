@@ -4,7 +4,7 @@ app.controller("brandController",function($scope,$controller,$http,brandService,
 	$controller('baseController',{$scope:$scope});
 
 	$scope.brandTemplateDownload = function () {
-        location.href = "/excel/brandTemplateDownload.do";
+        location.href = "/excel/templateDownload.do?templateName="+"bp";
     }
 
 	// 查询所有的品牌列表的方法:

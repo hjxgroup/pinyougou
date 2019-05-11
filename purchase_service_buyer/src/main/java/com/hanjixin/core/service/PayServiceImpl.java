@@ -1,6 +1,8 @@
 package com.hanjixin.core.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.github.wxpay.sdk.WXPayUtil;
 import com.hanjixin.common.utils.HttpClient;
 import com.hanjixin.common.utils.IdWorker;
@@ -31,7 +33,6 @@ public class PayServiceImpl implements PayService {
     public Map<String, String> createNative(String name) {
         //日志对象  理解为 订单对象 (支付ID就是订单ID) 总金额 就是支付金额 (分)
         PayLog payLog = (PayLog) redisTemplate.boundHashOps("payLog").get(name);
-
         //订单ID payLog.getOutTradeNo()
         //支付金额 payLog.getTotalFee() 分
         //连接微信服务器的连接
@@ -141,6 +142,41 @@ public class PayServiceImpl implements PayService {
             String content = httpClient.getContent();
             Map<String, String> map = WXPayUtil.xmlToMap(content);
             System.out.println(content);
+            return map;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Map<String, String> closeOrder(String out_trade_no) {
+        String url = "https://api.mch.weixin.qq.com/pay/closeorder";
+        //请求Http请求  响应  使用Apache开发的 HttpClient  Http请求的客户端 Java代码写了一个浏览器  (模拟了浏览器)
+        HttpClient httpClient = new HttpClient(url);
+        //设置https协议
+        httpClient.setHttps(true);
+        //入参
+        Map<String, String> param = new HashMap<>();
+        //公众账号ID 	appid 	是 	String(32) 	wxd678efh567hg6787 	微信支付分配的公众账号ID（企业号corpid即为此appId）
+        param.put("appid", appid);
+        //商户号 	mch_id 	是 	String(32) 	1230000109 	微信支付分配的商户号
+        param.put("mch_id", partner);
+        //设备号 	device_info 	否 	String(32) 	013467007045764 	自定义参数，可以为终端设备号(门店号或收银设备ID)，PC网页或公众号内支付可以传"WEB"
+        //随机字符串 	nonce_str 	是 	String(32) 	5K8264ILTKCH16CQ2502SI8ZNMTM67VS 	随机字符串，长度要求在32位以内。推荐随机数生成算法
+        param.put("nonce_str", WXPayUtil.generateNonceStr());
+        param.put("out_trade_no", out_trade_no);
+        try {
+            String xml = WXPayUtil.generateSignedXml(param, partnerkey);
+            //签名 	sign 	是 	String(32) 	C380BEC2BFD727A4B6845133519F3AD6 	通过签名算法计算得出的签名值，详见签名生成算法
+            //签名类型 	sign_type 	否 	String(32) 	MD5 	签名类型，默认为MD5，支持HMAC-SHA256和MD5。
+            //设置入参
+            httpClient.setXmlParam(xml);
+            //POST提交
+            httpClient.post();
+            //响应
+            String content = httpClient.getContent();
+            Map<String, String> map = WXPayUtil.xmlToMap(content);
             return map;
         } catch (Exception e) {
             e.printStackTrace();

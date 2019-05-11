@@ -11,4 +11,17 @@ app.service("excelService", function ($http) {
         });
     }
 
+    this.importSpecificationExcel=function (formData) {
+
+
+        return $http({
+            method:'post',
+            url:'/excel/importSpecificationExcel.do',
+            data: formData,
+            headers: {'Content-Type': undefined},
+            transformRequest: angular.identity
+        })
+
+    }
+
 })

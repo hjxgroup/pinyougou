@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>报表管理</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- 引入angular的js -->
+    <script type="text/javascript" src="../plugins/angularjs/angular.min.js"></script>
+
+    <script type="text/javascript" src="../js/echarts.min.js"></script>
+    <script type="text/javascript" src="../js/base.js"></script>
+    <script type="text/javascript" src="../js/controller/sales_chartController.js"></script>
+    <script type="text/javascript" src="../js/service/salesService.js"></script>
+
+</head>
+
+<body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="salesChartController"
+ng-init="showData(0)">
+<!-- .box-body -->
+
+<div class="box-header with-border">
+    <h3 class="box-title">销售饼状图</h3>
+</div>
+
+<div class="box-body">
+
+    <!-- 数据表格 -->
+    <div class="table-box">
+
+        <div class="box-tools pull-right">
+            <div class="has-feedback">
+                起始时间：<input type="text" ng-model="search.start" placeholder="2018-09-01">
+                截止时间：<input type="text" ng-model="search.end" placeholder="2019-09-01">
+                <button class="btn btn-default" ng-click="showData(1)">查询</button>
+            </div>
+        </div>
+
+    </div>
+    <!-- 数据表格 /-->
+    <div id="main" style="width: 90%;height:500px;margin-top: 50px;"></div>
+</div>
+<!-- /.box-body -->
+<!--input-mask-->
+</body>
+<script type="text/javascript" src="../plugins/adminLTE/js/input-mask/jquery.inputmask.js"></script>
+<script type="text/javascript" src="../plugins/adminLTE/js/input-mask/jquery.inputmask.date.extensions.js"></script>
+<script type="text/javascript" src="../plugins/adminLTE/js/input-mask/jquery.inputmask.extensions.js"></script>
+<script>
+    $(function () {
+        $('#datemask').inputmask('yyyy-mm-dd', { 'placeholder': 'yyyy-mm-dd' })
+        })
+</script>
+</html>
