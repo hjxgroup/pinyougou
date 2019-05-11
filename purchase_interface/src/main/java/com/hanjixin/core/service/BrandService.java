@@ -27,5 +27,5 @@ public interface BrandService {
 
     void saveBeans(ArrayList<Brand> brands);
 
-    /* List<Map> selectOptionList();*/
+     List<Map> selectOptionList();
 }

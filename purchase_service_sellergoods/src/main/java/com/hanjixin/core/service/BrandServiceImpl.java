@@ -97,7 +97,10 @@ public class BrandServiceImpl implements BrandService {
             }
         }
     }
-
+    @Override
+    public List<Map> selectOptionList() {
+        return brandDao.selectOptionList();
+    }
     //保存品牌表
     @Override
     public void saveBeans(ArrayList<Brand> brands) {
