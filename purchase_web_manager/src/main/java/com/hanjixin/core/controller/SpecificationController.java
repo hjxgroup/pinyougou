@@ -8,7 +8,6 @@ import entity.Result;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import sun.util.resources.ga.LocaleNames_ga;
 import vo.SpecificationVo;
 
 import java.util.List;
@@ -23,6 +22,7 @@ public class SpecificationController {
     //查询分页带条件
     @RequestMapping("/search")
     public PageResult search(Integer page, Integer rows, @RequestBody Specification specification){
+
        return specificationService.search(page,rows,specification);
     }
 

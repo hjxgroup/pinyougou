@@ -4,6 +4,7 @@ import com.hanjixin.core.pojo.specification.Specification;
 import entity.PageResult;
 import vo.SpecificationVo;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,4 +18,6 @@ public interface SpecificationService {
     void update(SpecificationVo vo);
 
     List<Map> selectOptionList();
+
+    void saveBeans(ArrayList<Specification> specifications);
 }
