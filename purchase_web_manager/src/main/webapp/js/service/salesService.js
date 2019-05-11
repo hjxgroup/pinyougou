@@ -1,6 +1,8 @@
-// 定义服务层:
-app.service("salesService",function($http){
-	this.salesChart = function(start,end){
-		return $http.get("../sales/salesChart.do?start="+start+"&end="+end);
+//服务层
+app.service('salesService',function($http){
+	    	
+	//读取列表数据绑定到表单中
+	this.sales_pre=function(data){
+		return $http.post('../sales/salespre.do?startdata='+data.start+"&enddata="+data.end);
 	}
 });

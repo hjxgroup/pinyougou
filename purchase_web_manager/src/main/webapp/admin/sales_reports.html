@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>商品管理</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/daterangepicker.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- 引入angular的js -->
+    <script type="text/javascript" src="../plugins/angularjs/angular.min.js"></script>
+    <!-- 引入分页相关的JS和CSS -->
+    <script type="text/javascript" src="../plugins/angularjs/pagination.js"></script>
+    <link rel="stylesheet" href="../plugins/angularjs/pagination.css">
+    <script src="../plugins/adminLTE/js/moment.js"></script>
+    <script src="../plugins/adminLTE/js/daterangepicker.js"></script>
+
+    <script src="../plugins/adminLTE/js/raphael-min.js"></script>
+    <script src="../plugins/adminLTE/js/morris.min.js"></script>
+    <script src="../plugins/adminLTE/js/prettify.min.js"></script>
+    <link rel="stylesheet" href="../plugins/adminLTE/css/prettify.min.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/morris.css">
+
+    <script type="text/javascript" src="../js/base.js"></script>
+    <script type="text/javascript" src="../js/service/salesService.js"></script>
+    <script type="text/javascript" src="../js/controller/salesController.js"></script>
+    <script>
+        $(function () {
+            $('#daterange-btn').daterangepicker({
+                    ranges: {
+                        '这个月': [moment().startOf('month'), moment().endOf('month')],
+                        '上个月': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                    },
+                    startDate: moment().subtract(29, 'days'),
+                    endDate: moment()
+                },
+                function (start, end) {
+                    if (start.format('YYYY年MM月') == end.format('YYYY年MM月')) {
+                        $('#daterange-btn span').html(start.format('YYYY年MM月'))
+                    } else {
+                        $('#daterange-btn span').html(start.format('YYYY年MM月') + '-' + end.format('YYYY年MM月'))
+                    }
+                }
+            );
+        });
+    </script>
+
+</head>
+
+<body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="salesController"
+      ng-init="sales_pre(0)">
+<!-- .box-body -->
+
+<div class="box-header with-border">
+    <h3 class="box-title">销售报表</h3>
+</div>
+
+<div class="box-body">
+    <div class="table-box">
+        <div class="box-tools pull-right">
+            <div class="has-feedback">
+                <div class="input-group">
+                    <button type="button" class="btn btn-default pull-right" id="daterange-btn">
+                    <span>
+                      <i class="fa fa-calendar"></i> 日期间隔
+                    </span>
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    <button class="btn btn-default" ng-click="sales_pre(1)">查询</button>
+                </div>
+            </div>
+        </div>
+        <div id="graph" style="position:absolute;margin-top: 40px; width: 100%;"></div>
+    </div>
+    <!-- /.box-body -->
+</div>
+</body>
+</html>
