@@ -83,6 +83,9 @@ public class BrandController {
             return new Result(false,"审核未通过!");
         }
     }
-
+    @RequestMapping("/selectOptionList")
+    public List<Map> selectOptionList(){
+        return brandService.selectOptionList();
+    }
 }
 

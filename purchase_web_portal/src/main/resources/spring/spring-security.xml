@@ -20,7 +20,7 @@
 		<!-- 2:匿名角色 IS_AUTHENTICATED_ANONYMOUSLY  只是未登陆 帮助你登陆  -->
 		<intercept-url pattern="/cart/*.do" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url> 
 		<intercept-url pattern="/itemsearch/*.do" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>
-
+        <intercept-url pattern="/content/*.do" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>
 
         <!-- 3:必须登陆 -->
         <intercept-url pattern="/**" access="ROLE_USER"/>   

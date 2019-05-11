@@ -23,5 +23,15 @@ app.service("excelService", function ($http) {
         })
 
     }
+    this.importContentCategoryExcel=function (fromDate) {
+        return $http({
+            method:'post',
+            url:'/excel/importContentCategoryExcel.do',
+            data:fromDate,
+            headers: {'Content-Type': undefined},
+            transformRequest: angular.identity
+        })
+
+    }
 
 })

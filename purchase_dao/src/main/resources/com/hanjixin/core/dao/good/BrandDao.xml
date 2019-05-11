@@ -198,4 +198,7 @@
       status = #{status,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="selectOptionList" resultType="map">
+    select id,name text from  tb_brand
+  </select>
 </mapper>

@@ -2,9 +2,11 @@ package com.hanjixin.core.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.hanjixin.common.utils.FileUtils;
+import com.hanjixin.core.pojo.ad.ContentCategory;
 import com.hanjixin.core.pojo.good.Brand;
 import com.hanjixin.core.pojo.specification.Specification;
 import com.hanjixin.core.service.BrandService;
+import com.hanjixin.core.service.ContentCategoryService;
 import com.hanjixin.core.service.SpecificationService;
 import entity.Result;
 import org.apache.poi.ss.usermodel.Cell;
@@ -32,6 +34,8 @@ public class ExcelImportController implements ServletContextAware {
     private BrandService brandService;
     @Reference
     private SpecificationService specificationService;
+    @Reference
+    private ContentCategoryService contentCategoryService;
 
     @Value("${brandTemplateName}")
     private String brandTemplateName;
@@ -42,6 +46,11 @@ public class ExcelImportController implements ServletContextAware {
     private String specificationTemplateName;
     @Value("${specificationTemplatePath}")
     private String specificationTemplatePath;
+
+    @Value("${contentCategforyTemplateName}")
+    private String contentCategforyTemplateName;
+    @Value("${contentCategforyTemplatePath}")
+    private String contentCategforyTemplatePath;
 
     @RequestMapping("/templateDownload")
     public void brandTemplateDownload(String templateName,HttpServletRequest request, HttpServletResponse response) {
@@ -57,6 +66,9 @@ public class ExcelImportController implements ServletContextAware {
             }else if (templateName.trim().equals("sp")){
                 tName=specificationTemplateName;
                 tPath=specificationTemplatePath;
+            }else if (templateName.trim().equals("ct")){
+                tName=contentCategforyTemplateName;
+                tPath=contentCategforyTemplatePath;
             }
             String path = servletContext.getRealPath(tPath);
             String mimeType = servletContext.getMimeType(tName);
@@ -152,6 +164,32 @@ public class ExcelImportController implements ServletContextAware {
             return new Result(false,"数据导入失败");
         }
 
+    }
+
+    //广告数据导入
+    @RequestMapping("/importContentCategoryExcel")
+    public Result importContentCategoryExcel(MultipartFile file){
+        try {
+            XSSFWorkbook wk = new XSSFWorkbook(file.getInputStream());
+            XSSFSheet sheetAt = wk.getSheetAt(0);
+            ArrayList<ContentCategory> contentCategories = new ArrayList<>();
+            for (Row row : sheetAt) {
+                if (row.getRowNum()==0){
+                    continue;
+                }
+                ContentCategory contentCategory = new ContentCategory();
+                if (row.getCell(0)!=null){
+                    contentCategory.setName(row.getCell(0).getStringCellValue());
+                }
+                contentCategories.add(contentCategory);
+            }
+            contentCategoryService.saveBeans(contentCategories);
+            return new Result(true,"数据导入成功!!");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new Result(false,"数据导入失败!!");
+        }
     }
 
 

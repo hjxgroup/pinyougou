@@ -8,6 +8,7 @@ import com.hanjixin.core.pojo.ad.ContentCategory;
 import entity.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -54,5 +55,14 @@ public class ContentCategoryServiceImpl implements ContentCategoryService {
 		}
 		
 	}
+
+    @Override
+    public void saveBeans(ArrayList<ContentCategory> contentCategories) {
+        if (contentCategories!=null && contentCategories.size()>0){
+			for (ContentCategory contentCategory : contentCategories) {
+				contentCategoryDao.insertSelective(contentCategory);
+			}
+		}
+    }
 
 }

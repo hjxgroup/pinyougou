@@ -1,8 +1,33 @@
  //控制层 
-app.controller('contentCategoryController' ,function($scope,$controller   ,contentCategoryService){	
+app.controller('contentCategoryController' ,function($scope,$controller   ,contentCategoryService,excelService){
 	
 	$controller('baseController',{$scope:$scope});//继承
-	
+
+	//模板下载
+	$scope.contentCategoryTemplateDownload=function () {
+		location.href="/excel/templateDownload.do?templateName="+"ct";
+
+    }
+    //数据导入
+    $scope.importExcel=function () {
+        // 向后台传递数据:
+        var formData = new FormData();
+        // 向formData中添加数据:
+        formData.append("file",file.files[0]);
+        excelService.importContentCategoryExcel(formData).success(
+            function (response) {
+                if(response.flag){
+                    alert(response.message)
+                    $scope.reloadList();
+                }else {
+                    alert(response.message)
+                }
+
+            }
+        )
+    }
+
+
     //读取列表数据绑定到表单中  
 	$scope.findAll=function(){
 		contentCategoryService.findAll().success(
