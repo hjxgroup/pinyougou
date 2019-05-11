@@ -3,6 +3,7 @@ package com.hanjixin.core.service;
 import com.hanjixin.core.pojo.ad.ContentCategory;
 import entity.PageResult;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface ContentCategoryService {
@@ -18,4 +19,6 @@ public interface ContentCategoryService {
 	public ContentCategory findOne(Long id);
 	
 	public void delAll(Long[] ids);
+
+    void saveBeans(ArrayList<ContentCategory> contentCategories);
 }

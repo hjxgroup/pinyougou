@@ -23,6 +23,7 @@
     <script type="text/javascript" src="../js/service/contentCategoryService.js">  </script>
     <script type="text/javascript" src="../js/controller/baseController.js">  </script>
     <script type="text/javascript" src="../js/controller/contentCategoryController.js">  </script>
+    <script type="text/javascript" src="../js/service/excelService.js"></script>
     
 </head>
 <body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="contentCategoryController" >
@@ -43,6 +44,15 @@
                                         <button type="button" class="btn btn-default" title="新建" data-toggle="modal" data-target="#editModal" ng-click="entity={}"><i class="fa fa-file-o"></i> 新建</button>
                                         <button type="button" class="btn btn-default" title="删除" ng-click="dele()"><i class="fa fa-trash-o"></i> 删除</button>           
                                         <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
+                                        <button type="button" class="btn btn-default" title="模板下载" ng-click="contentCategoryTemplateDownload()"><i
+                                                class="fa fa-check"></i>
+                                            模板下载
+                                        </button>
+                                        <button type="button" class="btn btn-default" title="数据导入" ng-click="importExcel()"><i
+                                                class="fa fa-check"></i>
+                                            数据导入
+                                        </button>
+                                        <input type="file" id="file" class="fa fa-check"/>
                                     </div>
                                 </div>
                             </div>
