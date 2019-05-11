@@ -3,6 +3,8 @@ package com.hanjixin.core.dao.user;
 import com.hanjixin.core.pojo.user.User;
 import com.hanjixin.core.pojo.user.UserQuery;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface UserDao {
@@ -27,4 +29,8 @@ public interface UserDao {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+
+    List<Map<String,Object>> findAllByDate(@Param("start")String start, @Param("end")String end, @Param("status")String statusValue);
+
+
 }

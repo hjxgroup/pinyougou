@@ -482,4 +482,12 @@
       last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="findAllByDate" resultType="map">
+      SELECT DATE_FORMAT(t.created,'%Y-%m') AS createtime,COUNT(1) AS COUNT FROM tb_user t WHERE t.created BETWEEN #{start} AND #{end}
+    <if test="status != null" >
+      and status = #{status}
+    </if>
+       GROUP BY MONTH(t.created) ORDER BY t.created
+  </select>
+
 </mapper>
