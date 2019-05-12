@@ -1,5 +1,6 @@
 //控制层
-app.controller('seckillGoodsController' ,function($scope,$location,seckillGoodsService,$interval){
+app.controller('seckillGoodsController' ,function($scope,$controller，$location,seckillGoodsService,$interval){
+    $controller('baseController',{$scope:$scope});//继承
 	//读取列表数据绑定到表单中
 	$scope.findList=function(){
 		seckillGoodsService.findList().success(

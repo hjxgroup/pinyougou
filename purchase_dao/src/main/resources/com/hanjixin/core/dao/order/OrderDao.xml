@@ -545,4 +545,23 @@
     WHERE t.payment_time BETWEEN #{0} and #{1}
     GROUP BY t.seller_id
   </select>
+  <select id="findOrder" resultType="map" >
+    select date_format(t.create_time,'%m') createtime,count(1) count from tb_order t where YEAR(t.create_time)=#{year}
+    <if test="goodsid != null" >
+      and t.order_id in (select distinct(oi.order_id) from tb_order_item oi where oi.goods_id=#{goodsid})
+    </if>
+    <if test="sellerid != null" >
+     and t.seller_id=#{sellerid}
+    </if>
+    GROUP BY MONTH(t.create_time) order by t.create_time
+  </select>
+
+  <select id="findAllByOrder" resultType="map">
+    SELECT DATE_FORMAT(t.create_time,'%Y-%m') AS createtime,COUNT(1) AS COUNT FROM tb_order t WHERE t.create_time BETWEEN #{start} AND #{end}
+    <if test="user_id != null" >
+      and t.user_id = #{user_id}
+    </if>
+    GROUP BY MONTH(t.create_time) ORDER BY t.create_time
+
+  </select>
 </mapper>
