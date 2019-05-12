@@ -20,4 +20,9 @@ public class OrderController {
         order.setSellerId(name);
         return orderService.search(page,rows,order);
     }
+    @RequestMapping("/showData")
+    public long[] showData(String year,String goodsName){
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        return orderService.showData(year,goodsName,name);
+    }
 }

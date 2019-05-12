@@ -545,4 +545,14 @@
     WHERE t.payment_time BETWEEN #{0} and #{1}
     GROUP BY t.seller_id
   </select>
+  <select id="findOrder" resultType="map" >
+    select date_format(t.create_time,'%m') createtime,count(1) count from tb_order t where YEAR(t.create_time)=#{year}
+    <if test="goodsid != null" >
+      and t.order_id in (select distinct(oi.order_id) from tb_order_item oi where oi.goods_id=#{goodsid})
+    </if>
+    <if test="sellerid != null" >
+     and t.seller_id=#{sellerid}
+    </if>
+    GROUP BY MONTH(t.create_time) order by t.create_time
+  </select>
 </mapper>

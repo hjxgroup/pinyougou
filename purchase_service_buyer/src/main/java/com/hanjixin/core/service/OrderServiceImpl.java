@@ -4,10 +4,13 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.hanjixin.common.utils.IdWorker;
+import com.hanjixin.core.dao.good.GoodsDao;
 import com.hanjixin.core.dao.item.ItemDao;
 import com.hanjixin.core.dao.log.PayLogDao;
 import com.hanjixin.core.dao.order.OrderDao;
 import com.hanjixin.core.dao.order.OrderItemDao;
+import com.hanjixin.core.pojo.good.Goods;
+import com.hanjixin.core.pojo.good.GoodsQuery;
 import com.hanjixin.core.pojo.item.Item;
 import com.hanjixin.core.pojo.log.PayLog;
 import com.hanjixin.core.pojo.order.Order;
@@ -23,6 +26,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
 @Service
 public class OrderServiceImpl implements OrderService {
     @Autowired
@@ -37,6 +42,8 @@ public class OrderServiceImpl implements OrderService {
     private OrderItemDao orderItemDao;
     @Autowired
     private PayLogDao payLogDao;
+    @Autowired
+    private GoodsDao goodsDao;
     @Override
     public void add(Order order) {
         //1:保存购物车 每一个购物车 商家为单位  一个购物车对应一个商家 对应一个订单
@@ -156,6 +163,25 @@ public class OrderServiceImpl implements OrderService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public long[] showData(String year, String goodsName,String sellerid) {
+        Long goodid=null;
+        GoodsQuery goodsQuery=new GoodsQuery();
+        goodsQuery.createCriteria().andAuditStatusEqualTo(goodsName);
+        List<Goods> goods = goodsDao.selectByExample(goodsQuery);
+        long[] longs = new long[12];
+        if (goods!=null&&goods.size()>0){
+            goodid=goods.get(0).getId();
+        }
+        List<Map<String, Object>> order = orderDao.findOrder(year, goodid, sellerid);
+
+        for (Map<String, Object> map : order) {
+            int index=Integer.parseInt(String.valueOf(map.get("createtime")));
+            longs[index-1]=(Long) map.get("count");
+        }
+        return longs;
     }
 
     public  double[] findNum(Integer year) {

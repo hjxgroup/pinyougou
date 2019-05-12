@@ -63,6 +63,9 @@ app.controller("salesChartController",function($scope,$controller,$http,salesSer
             year=year-1;
             $scope.start = year+"-"+month+"-01";
             $scope.end=newDate;
+        }else {
+            $scope.start = $scope.search.start;
+            $scope.end=$scope.search.end;
         }
         salesService.salesChart($scope.start,$scope.end).success(function(response){
             var data = response;

@@ -5,7 +5,7 @@
     <!-- 页面meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>商品管理</title>
+    <title>订单统计</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
     <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
@@ -16,19 +16,15 @@
     <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
 
     <!-- 引入angular的js -->
+    <script type="text/javascript" src="../js/echarts.min.js"></script>
     <script type="text/javascript" src="../plugins/angularjs/angular.min.js"></script>
-    <!-- 引入分页相关的JS和CSS -->
-    <script type="text/javascript" src="../plugins/angularjs/pagination.js"></script>
-    <link rel="stylesheet" href="../plugins/angularjs/pagination.css">
-
-    <script type="text/javascript" src="../js/base_pagination.js"></script>
-    <script type="text/javascript" src="../js/controller/baseController.js"></script>
-    <script type="text/javascript" src="../js/controller/orderController.js"></script>
-    <script type="text/javascript" src="../js/service/orderService.js"></script>
+    <script type="text/javascript" src="../js/base.js"></script>
+    <script type="text/javascript" src="../js/controller/order_sticController.js"></script>
+    <script type="text/javascript" src="../js/service/order_sticService.js"></script>
 
 </head>
 
-<body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="orderController">
+<body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="orderSticController" ng-init="showData(0)">
 <!-- .box-body -->
 
 <div class="box-header with-border">
@@ -37,73 +33,20 @@
 
 <div class="box-body">
 
-    <!-- tab页 -->
-    <div class="nav-tabs-custom">
+    <!-- 数据表格 -->
+    <div class="table-box">
 
-        <!--tab头-->
-        <ul class="nav nav-tabs">
-            <li class="active">
-                <a href="#seller_rep" data-toggle="tab">商家统计</a>
-            </li>
-            <li>
-                <a href="#user_rep" data-toggle="tab">用户统计</a>
-            </li>
-            <li>
-                <a href="#month_rep" data-toggle="tab">月份统计</a>
-            </li>
-        </ul>
-        <!--tab头/-->
-
-        <!--tab内容-->
-        <div class="tab-content">
-            <!--商家统计-->
-            <div class="tab-pane" id="seller_rep">
-                <div class="row data-type">
-                    <table class="table table-bordered table-striped table-hover dataTable">
-                        <thead>
-                        <tr>
-                            <th class="sorting" ng-repeat="pojo in entity.goodsDesc.specificationItems">
-                                {{pojo.attributeName}}
-                            </th>
-                            <th class="sorting">价格</th>
-                            <th class="sorting">库存</th>
-                            <th class="sorting">是否启用</th>
-                            <th class="sorting">是否默认</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="pojo in entity.itemList">
-                            <td ng-repeat="item in entity.goodsDesc.specificationItems">
-                                {{pojo.spec[item.attributeName]}}
-                            </td>
-                            <td>
-                                <input class="form-control" ng-model="pojo.price" placeholder="价格">
-                            </td>
-                            <td>
-                                <input class="form-control" ng-model="pojo.num" placeholder="库存数量">
-                            </td>
-                            <td>
-                                <input type="checkbox" ng-model="pojo.status" ng-true-value="1" ng-false-value="0">
-                            </td>
-                            <td>
-                                <input type="checkbox" ng-model="pojo.isDefault" ng-true-value="1" ng-false-value="0">
-                            </td>
-                        </tr>
-
-                        </tbody>
-                    </table>
-
-                </div>
+        <div class="box-tools pull-right">
+            <div class="has-feedback">
+                年份：<input type="text" ng-model="search.year" placeholder="2019">
+                商品:<input type="text" ng-model="search.goodsName" placeholder="华为手机">
+                <button class="btn btn-default" ng-click="showData(1)">查询</button>
             </div>
-
         </div>
-        <!--tab内容/-->
-        <!--表单内容/-->
 
     </div>
     <!-- 数据表格 /-->
-    <!-- 分页 -->
-    <tm-pagination conf="paginationConf"></tm-pagination>
+    <div id="main" style="width: 90%;height:500px;margin-top: 50px;"></div>
 
 </div>
 <!-- /.box-body -->
