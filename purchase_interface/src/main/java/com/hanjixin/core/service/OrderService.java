@@ -11,5 +11,8 @@ public interface OrderService {
     PageResult search(Integer page, Integer rows, Order order);
     List<Order> findByYear(String year);
 
+    List<String> findAllByOrder(String start, String end, String user_id);
+
+
     long[] showData(String year,String goodsName,String sellerid);
 }

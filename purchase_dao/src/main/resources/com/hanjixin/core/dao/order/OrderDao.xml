@@ -555,4 +555,13 @@
     </if>
     GROUP BY MONTH(t.create_time) order by t.create_time
   </select>
+
+  <select id="findAllByOrder" resultType="map">
+    SELECT DATE_FORMAT(t.create_time,'%Y-%m') AS createtime,COUNT(1) AS COUNT FROM tb_order t WHERE t.create_time BETWEEN #{start} AND #{end}
+    <if test="user_id != null" >
+      and t.user_id = #{user_id}
+    </if>
+    GROUP BY MONTH(t.create_time) ORDER BY t.create_time
+
+  </select>
 </mapper>

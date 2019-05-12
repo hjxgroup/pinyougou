@@ -37,4 +37,7 @@ public interface OrderDao {
     List<Map<String,String>> selectGroupMonth(String start, String end);
 
     List<Map<String,Object>> findOrder(@Param("year")String year, @Param("goodsid")Long goodsid,@Param("sellerid")String sellerid);
+
+    List<Map<String,Object>> findAllByOrder(@Param("start")String start, @Param("end")String end, @Param("user_id")String user_id);
+
 }

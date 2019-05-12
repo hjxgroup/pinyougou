@@ -21,6 +21,7 @@ public class UserStatisticsServiceImpl implements UserStatisticsService {
 
 
 
+
     @Override
     public List<String> findAll(String start, String end, String statusValue) {
 
@@ -32,7 +33,6 @@ public class UserStatisticsServiceImpl implements UserStatisticsService {
             String[] item=new String[2];
             item[0]=String.valueOf(map.get("createtime"));
             item[1]=String.valueOf((Long) map.get("COUNT"));
-            String string = JSON.toJSONString(item);
             strings.add(JSON.toJSONString(item));
         }
         return strings;

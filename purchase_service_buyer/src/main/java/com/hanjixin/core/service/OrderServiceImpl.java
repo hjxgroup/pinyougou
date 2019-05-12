@@ -1,6 +1,7 @@
 package com.hanjixin.core.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.hanjixin.common.utils.IdWorker;
@@ -163,6 +164,25 @@ public class OrderServiceImpl implements OrderService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public List<String> findAllByOrder(String start, String end, String user_id) {
+        List<Map<String, Object>> allByOrder = orderDao.findAllByOrder(start, end, user_id);
+        List<String> list = new ArrayList<>();
+        for (Map<String, Object> map : allByOrder) {
+            String createtime = (String) map.get("createtime");
+            String count = String.valueOf((Long) map.get("COUNT")) ;
+
+            String[] arr = new String[2];
+            arr[0]=createtime;
+            arr[1]=count;
+//            数组转成json字符串
+            String string = JSON.toJSONString(arr);
+            list.add(string);
+
+        }
+        return list;
     }
 
     @Override
